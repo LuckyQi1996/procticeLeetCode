@@ -1,5 +1,7 @@
 package com.luoqi.LeetCode;
 
+import java.math.BigInteger;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +9,7 @@ public class Solution {
     //初始化main方法
     public static void main(String[] args) {
         Solution solution=new Solution();
-        String  s="teppet";
-        System.out.println(s.substring(0,6));
-        String temp=solution.longestPalindrome(s);
+        solution.myAtoi("");
         System.out.println("end");
     }
 
@@ -154,7 +154,51 @@ public class Solution {
     }
     //第7题 整数反转
     public int reverse(int x) {
-       return 0;
+        if (x>=0&x<10) return x;
+        StringBuilder stringBuilder=new StringBuilder(String.valueOf(x));
+        stringBuilder.reverse();
+        int flag=1;
+        if (stringBuilder.charAt(stringBuilder.length()-1)=='-') {
+            stringBuilder.deleteCharAt(stringBuilder.length()-1);
+            flag=-1;
+        }
+        while (stringBuilder.charAt(0)=='0') {
+            stringBuilder.deleteCharAt(0);
+        }
+        if (flag == -1) {
+            stringBuilder.insert(0,'-');
+        }
+
+//        System.out.println(stringBuilder.toString());
+        BigInteger a=new BigInteger(stringBuilder.toString());
+        int res=0;
+        if (a.compareTo(BigInteger.valueOf(0))>0) res=a.compareTo(BigInteger.valueOf(Integer.MAX_VALUE))>0? 0:Integer.parseInt(stringBuilder.toString());
+
+        else res=a.compareTo(BigInteger.valueOf(Integer.MIN_VALUE))<0? 0:Integer.parseInt(stringBuilder.toString());
+       return res;
+    }
+    public int myAtoi(String str) {
+        if (str.length()==0) return 0;
+        int res=0;
+        char first=str.charAt(0);
+        if (first=='+'||first=='-'){
+            res=myAtoiSymbolHelper(first,str);
+        }else if (first>='0'&&first<='9'){
+            res=myAtoiNumberHelper(str);
+        }else  return 0;
+//        System.out.println("run");
+        return res;
+    }
+    public static int myAtoiSymbolHelper(char first,String str){
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(first);
+        for (int i=1;i<str.length();i++){
+            if (first>='0'&&first<='9') stringBuilder.append(str.charAt(i));
+        }
+
+    }
+    public static int myAtoiNumberHelper(String str){
+
     }
 
 }
