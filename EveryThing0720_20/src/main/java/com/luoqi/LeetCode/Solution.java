@@ -9,7 +9,7 @@ public class Solution {
     //初始化main方法
     public static void main(String[] args) {
         Solution solution=new Solution();
-        solution.myAtoi("");
+        solution.myAtoi("2000000000000000000000");
         System.out.println("end");
     }
 
@@ -180,6 +180,13 @@ public class Solution {
     public int myAtoi(String str) {
         if (str.length()==0) return 0;
         int res=0;
+
+        int k=0;
+        while (k<str.length()&&str.charAt(k)==' '){
+            k++;
+        }
+        if (k<str.length()) str=str.substring(k,str.length());
+        else return 0;
         char first=str.charAt(0);
         if (first=='+'||first=='-'){
             res=myAtoiSymbolHelper(first,str);
@@ -192,12 +199,38 @@ public class Solution {
     public static int myAtoiSymbolHelper(char first,String str){
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(first);
+        char c=' ';
         for (int i=1;i<str.length();i++){
-            if (first>='0'&&first<='9') stringBuilder.append(str.charAt(i));
+            c=str.charAt(i);
+            if (c>='0'&&c<='9') {
+                stringBuilder.append(c);
+            }else break;
         }
+        if (stringBuilder.length()>1) {
+            long res = Long.parseLong(stringBuilder.toString());
+            if (res > (long) Integer.MAX_VALUE) return Integer.MAX_VALUE;
+            if (res < (long) Integer.MIN_VALUE) return Integer.MIN_VALUE;
+            return (int)res;
+        }else return 0;
+
 
     }
     public static int myAtoiNumberHelper(String str){
+        StringBuilder stringBuilder=new StringBuilder();
+        char c=' ';
+        for (int i=0;i<str.length();i++){
+            c=str.charAt(i);
+            if (c>='0'&&c<='9') {
+                stringBuilder.append(c);
+            }else break;
+        }
+       
+        long res=Long.parseLong(stringBuilder.toString());
+        if (res>(long)Integer.MAX_VALUE) return Integer.MAX_VALUE;
+        if (res<(long)Integer.MIN_VALUE) return Integer.MIN_VALUE;
+
+
+        return (int)res;
 
     }
 
